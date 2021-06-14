@@ -1,0 +1,19 @@
+<h1> welcome {{user}} to the homepage </h1> 
+<br> 
+<a href="{% url 'logout' %}"> logout </a>
+
+
+<h3> create post here </h3>
+<form method ="POST" action="/home">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" name="create post">
+</form>
+
+{% for post in posts %}
+
+<h2> {{post.title}} </h2>
+<p> {{post.description}}</p>
+<a href="{% url 'edit_post' post.pk %}"> edit </a>"
+<a href="{% url 'delete_post' post.pk %}"> delete </a>"
+{% endfor %}

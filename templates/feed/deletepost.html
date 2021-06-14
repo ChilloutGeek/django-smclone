@@ -1,0 +1,8 @@
+<p> delete {{post}} forever?</p>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="submit" name="delete it please">
+</form>
+
+<a href="{% url 'feed' %}">no please </a>"
