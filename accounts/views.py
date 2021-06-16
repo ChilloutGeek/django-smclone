@@ -29,16 +29,26 @@ def logout_acc(request):
 
     return redirect('login')
 
+def follow_unfollow_profile(request,pk):
+    
+    profile = Profile.objects.get(id=pk)
+
+    is_following = profile.following.filter(id=request.user.id)
+
+    if is_following.exists():
+        profile.following.remove(request.user)
+    else:
+        profile.following.add(request.user)
+
+
+    return redirect('profile_detail',pk=pk)
 def profile_detail(request,pk):
 
     profile = Profile.objects.get(pk=pk)
 
-    my_profile = Profile.objects.get(user=request.user)
+    is_following = profile.following.filter(id=request.user.id)
     
-    if profile.user in my_profile.following.all():
-        follow = True
-    else:
-        follow = False
+    
 
 
-    return render(request, 'accounts/profiledetail.html',{'profile':profile,'follow':follow})
+    return render(request, 'accounts/profiledetail.html',{'profile':profile,'is_following':is_following})

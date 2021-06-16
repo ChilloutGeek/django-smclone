@@ -3,16 +3,12 @@
 
 {{profile.user}}
 {{profile.bio}}
+{{profile.pk}}
 
-{% if follow %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="profile_pk">
-        <button type="submit">unfollow</button>
-    </form>
-
+{% if is_following.exists %}
+    <a href="{% url 'follow_unfollow' profile.pk %}">unfollow</a>
 {% else %}
-    <button type="submit"> follow </button>
+    <a href="{% url 'follow_unfollow' profile.pk %}">follow</a>
 
 {% endif %}
     
