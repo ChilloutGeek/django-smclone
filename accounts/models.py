@@ -10,6 +10,3 @@ class Profile(models.Model):
     
     def __str__(self):
         return str(self.user)
-        
-    def profiles_post(self):
-        return self.post_set.all()

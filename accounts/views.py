@@ -32,13 +32,19 @@ def logout_acc(request):
 def follow_unfollow_profile(request,pk):
     
     profile = Profile.objects.get(id=pk)
+    my_profile = Profile.objects.get(user=request.user)
 
+    my_profile_following = my_profile.following.filter(id=profile.user.id)
     is_following = profile.following.filter(id=request.user.id)
 
-    if is_following.exists():
-        profile.following.remove(request.user)
+    
+    if my_profile_following.exists():
+
+        my_profile.following.remove(profile.user)
+    
     else:
-        profile.following.add(request.user)
+
+        my_profile.following.add(profile.user)
 
 
     return redirect('profile_detail',pk=pk)
@@ -46,9 +52,10 @@ def profile_detail(request,pk):
 
     profile = Profile.objects.get(pk=pk)
 
+    my_profile = Profile.objects.get(user=request.user)
+
+    my_profile_following = my_profile.following.filter(id=profile.user.id)
+
     is_following = profile.following.filter(id=request.user.id)
     
-    
-
-
-    return render(request, 'accounts/profiledetail.html',{'profile':profile,'is_following':is_following})
+    return render(request, 'accounts/profiledetail.html',{'profile':profile,'is_following':is_following,'my_profile':my_profile,'my_profile_following':my_profile_following})

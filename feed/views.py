@@ -10,7 +10,11 @@ def homefeed(request):
 
         profiles = Profile.objects.all().exclude(user=request.user)
 
-        posts = Post.objects.all()
+        profile = Profile.objects.get(user=request.user)
+
+        following = profile.following.all()
+        
+        posts = Post.objects.filter(author__in=following)
         
         form = PostForm()
 
@@ -35,7 +39,7 @@ def editpost(request,pk):
 
     if request.method == 'POST':
 
-        if request.user == post.author.user:
+        if request.user == post.author :
 
             form = PostForm(request.POST, instance=post)
 
@@ -50,7 +54,10 @@ def deletepost(request,pk):
     post = Post.objects.get(pk=pk)
 
     if request.method == 'POST':
-        post.delete()
-        return redirect('feed')
+        
+        if request.user == post.author:
+
+            post.delete()
+            return redirect('feed')
 
     return render(request, 'feed/deletepost.html', {'post':post})

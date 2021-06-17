@@ -5,16 +5,14 @@
 {{profile.bio}}
 {{profile.pk}}
 
-{% if is_following.exists %}
+{% if profile.user in my_profile_following %}
+
     <a href="{% url 'follow_unfollow' profile.pk %}">unfollow</a>
 {% else %}
+
     <a href="{% url 'follow_unfollow' profile.pk %}">follow</a>
 
 {% endif %}
-    
-{% for post in object.profiles_post %}
-    
-    {{post.as_p}}
 
-{% endfor %}
 
+<a href="{% url 'feed' %}"> home </a>
