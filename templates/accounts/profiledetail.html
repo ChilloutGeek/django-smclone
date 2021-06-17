@@ -15,4 +15,11 @@
 {% endif %}
 
 
-<a href="{% url 'feed' %}"> home </a>
+<a href="{% url 'feed' %}"> home </a> 
+
+
+{% for post in posts %}
+
+<p>{{post}}</p>
+
+{% endfor %}

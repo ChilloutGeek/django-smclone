@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm
 from .models import Profile
+from feed.models import Post
 
 def login_acc(request):
     
@@ -36,7 +37,6 @@ def follow_unfollow_profile(request,pk):
 
     my_profile_following = my_profile.following.filter(id=profile.user.id)
     is_following = profile.following.filter(id=request.user.id)
-
     
     if my_profile_following.exists():
 
@@ -58,4 +58,7 @@ def profile_detail(request,pk):
 
     is_following = profile.following.filter(id=request.user.id)
     
-    return render(request, 'accounts/profiledetail.html',{'profile':profile,'is_following':is_following,'my_profile':my_profile,'my_profile_following':my_profile_following})
+
+    posts = Post.objects.filter(author=profile.user)
+
+    return render(request, 'accounts/profiledetail.html',{'profile':profile,'is_following':is_following,'my_profile':my_profile,'my_profile_following':my_profile_following,'posts':posts})

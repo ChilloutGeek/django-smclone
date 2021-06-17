@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Post
+from .models import Post, Comments 
 from accounts.models import Profile
 from .forms import PostForm
 
@@ -11,7 +11,7 @@ def homefeed(request):
         profiles = Profile.objects.all().exclude(user=request.user)
 
         profile = Profile.objects.get(user=request.user)
-
+            
         following = profile.following.all()
         
         posts = Post.objects.filter(author__in=following)
@@ -30,6 +30,17 @@ def homefeed(request):
         return render(request, 'feed/homefeed.html',{'posts':posts,'form':form,'profiles':profiles})
     else:
         return redirect('login')
+
+
+def detailpost(request, pk):
+
+    posts = Post.objects.get(pk=pk)
+
+    comments = Comments.objects.get(pk=pk)
+
+    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments})
+
+
 
 def editpost(request,pk):
 
@@ -61,3 +72,4 @@ def deletepost(request,pk):
             return redirect('feed')
 
     return render(request, 'feed/deletepost.html', {'post':post})
+
