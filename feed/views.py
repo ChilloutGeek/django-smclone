@@ -36,7 +36,7 @@ def detailpost(request, pk):
 
     posts = Post.objects.get(pk=pk)
 
-    comments = Comments.objects.get(pk=pk)
+    comments = Comments.objects.filter(post=posts)
 
     return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments})
 

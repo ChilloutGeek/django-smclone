@@ -2,4 +2,11 @@
 
 {{posts}}
 <br>
-{{comments}}
+
+<h2> comments </h2>
+{% for comment in comments %}
+
+{{ comment }}
+{{ comment.commentor }}
+
+{% endfor %}

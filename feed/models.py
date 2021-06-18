@@ -24,6 +24,7 @@ class Post(models.Model):
 
 class Comments(models.Model):
 
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=80)
     body = models.TextField()

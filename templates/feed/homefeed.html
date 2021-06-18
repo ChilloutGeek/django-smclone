@@ -24,4 +24,5 @@
 <p> {{post.description}}</p>
 <a href="{% url 'edit_post' post.pk %}"> edit </a>"
 <a href="{% url 'delete_post' post.pk %}"> delete </a>"
+<a href="{% url 'detail_post' post.pk %}"> see more post </a>
 {% endfor %}
