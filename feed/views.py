@@ -31,13 +31,35 @@ def homefeed(request):
     else:
         return redirect('login')
 
+def postlike(request, pk):
+
+    posts = Post.objects.get(pk=pk)
+
+    posts_likes = posts.likes.all()
+    posts_me_liked = posts.likes.filter(id=request.user.id)
+
+    
+    if posts_me_liked.exists():
+
+        posts.likes.remove(request.user)
+
+    else:
+
+        posts.likes.add(request.user)
+
+    return redirect('detail_post', pk=pk)
+
 
 def detailpost(request, pk):
 
     posts = Post.objects.get(pk=pk)
+
+    posts_likes = posts.likes.all()
+    
+    posts_me_liked = posts.likes.filter(id=request.user.id)
     
     comments = Comments.objects.filter(post=posts)
-
+    
     form = CommentForm()
 
     if request.method == "POST":
@@ -52,7 +74,7 @@ def detailpost(request, pk):
             createdcomment.save()
         return redirect('feed')
 
-    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form})
+    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form,'posts_likes':posts_likes,'posts_me_liked':posts_me_liked})
 
 
 def editpost(request,pk):

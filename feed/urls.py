@@ -5,5 +5,6 @@ urlpatterns = [
     path('home',views.homefeed, name='feed'),
     path('edit_post/<str:pk>/', views.editpost, name='edit_post'),
     path('delete_post/<str:pk>',views.deletepost, name='delete_post'),
-    path('detail_post/<str:pk>', views.detailpost, name='detail_post')
+    path('detail_post/<str:pk>', views.detailpost, name='detail_post'),
+    path('like_post/<str:pk>/', views.postlike , name='like_post')
 ]

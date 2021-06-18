@@ -2,7 +2,17 @@
 
 {{posts}}
 <br>
+<br>
+{% if posts_me_liked.exists %}
 
+    <a href="{% url 'like_post' posts.pk %}"> unlike post</a>
+
+{% else %}
+
+    <a href="{% url 'like_post' posts.pk %}"> like post </a>
+
+{% endif %}
+<br>
 <h2> comments </h2>
 
 <form method ="POST" action="">

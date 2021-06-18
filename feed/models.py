@@ -12,7 +12,10 @@ class Post(models.Model):
     description = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
+    likes = models.ManyToManyField(User, related_name='postlike')
 
+    def like_number(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title
