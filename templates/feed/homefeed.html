@@ -11,6 +11,11 @@
 
 {% endfor %}
 
+<h2> searching? </h2>
+<form type="GET" action=''>
+    <input id ="search_box" type="text" name="search_box">
+    <button id="search_submit" type="submit">submit</button>
+</form>
 <h3> create post here </h3>
 <form method ="POST" action="/home">
     {% csrf_token %}

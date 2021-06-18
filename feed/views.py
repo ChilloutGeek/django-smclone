@@ -18,6 +18,14 @@ def homefeed(request):
         
         form = PostForm()
 
+        if request.method == "GET":
+
+            search_text = request.GET.get('search_box', None)
+
+            if search_text:
+                posts = Post.objects.filter(title__contains=search_text)
+
+
         if request.method == "POST":
             form = PostForm(request.POST)
             
