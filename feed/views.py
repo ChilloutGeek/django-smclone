@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Post, Comments 
 from accounts.models import Profile
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 
 def homefeed(request):
@@ -35,11 +35,24 @@ def homefeed(request):
 def detailpost(request, pk):
 
     posts = Post.objects.get(pk=pk)
-
+    
     comments = Comments.objects.filter(post=posts)
 
-    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments})
+    form = CommentForm()
 
+    if request.method == "POST":
+        posts = Post.objects.get(pk=pk)
+        
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            createdcomment = form.save(commit=False)
+            createdcomment.post = Post.objects.get(pk=pk)
+            createdcomment.commentor = request.user
+            createdcomment.save()
+        return redirect('feed')
+
+    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form})
 
 
 def editpost(request,pk):

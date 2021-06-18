@@ -4,6 +4,13 @@
 <br>
 
 <h2> comments </h2>
+
+<form method ="POST" action="">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" name="create comment">
+</form>
+
 {% for comment in comments %}
 
 {{ comment }}
