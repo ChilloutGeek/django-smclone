@@ -2,12 +2,12 @@ from django.shortcuts import render,redirect
 from .models import Post, Comments 
 from accounts.models import Profile
 from .forms import PostForm, CommentForm
+from django.views.generic.base import View
 
+class HomeFeedView(View):
 
-def homefeed(request):
-
-    if request.user.is_authenticated:
-
+    def get(self,request):
+    
         profiles = Profile.objects.all().exclude(user=request.user)
 
         profile = Profile.objects.get(user=request.user)
@@ -15,62 +15,48 @@ def homefeed(request):
         following = profile.following.all()
         
         posts = Post.objects.filter(author__in=following)
-        
+         
         form = PostForm()
 
-        if request.method == "GET":
+        search_text = request.GET.get('search_box', None)
 
-            search_text = request.GET.get('search_box', None)
+        if search_text:
+            posts = Post.objects.filter(title__contains=search_text)
 
-            if search_text:
-                posts = Post.objects.filter(title__contains=search_text)
-
-
-        if request.method == "POST":
-            form = PostForm(request.POST)
-            
-            if form.is_valid():
-                thepost = form.save(commit=False)
-                thepost.user = request.user
-                thepost.save()
-            return redirect('feed')
-        
         return render(request, 'feed/homefeed.html',{'posts':posts,'form':form,'profiles':profiles})
-    else:
-        return redirect('login')
-
-def postlike(request, pk):
-
-    posts = Post.objects.get(pk=pk)
-
-    posts_likes = posts.likes.all()
-    posts_me_liked = posts.likes.filter(id=request.user.id)
-
     
-    if posts_me_liked.exists():
+    def post(self,request):
 
-        posts.likes.remove(request.user)
+        form = PostForm(data=request.POST)
+        
+        if form.is_valid():
 
-    else:
+            thepost = form.save(commit=False)
+            thepost.author = self.request.user 
+            thepost.save()
+        
+        return redirect('feed')
 
-        posts.likes.add(request.user)
+class DetailPostView(View):
 
-    return redirect('detail_post', pk=pk)
+    def get(self,request,pk):
 
+        posts = Post.objects.get(pk=pk)
 
-def detailpost(request, pk):
-
-    posts = Post.objects.get(pk=pk)
-
-    posts_likes = posts.likes.all()
+        posts_likes = posts.likes.all()
     
-    posts_me_liked = posts.likes.filter(id=request.user.id)
+        posts_me_liked = posts.likes.filter(id=request.user.id)
     
-    comments = Comments.objects.filter(post=posts)
+        comments = Comments.objects.filter(post=posts)
     
-    form = CommentForm()
+        form = CommentForm()
 
-    if request.method == "POST":
+        self.postlike(self.request, pk=pk)
+
+        return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form,'posts_likes':posts_likes,'posts_me_liked':posts_me_liked})
+    
+    def post(self, request, pk):
+
         posts = Post.objects.get(pk=pk)
         
         form = CommentForm(request.POST)
@@ -82,37 +68,48 @@ def detailpost(request, pk):
             createdcomment.save()
         return redirect('feed')
 
-    return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form,'posts_likes':posts_likes,'posts_me_liked':posts_me_liked})
+    def postlike(self,request, pk):
 
+        posts = Post.objects.get(pk=pk)
 
-def editpost(request,pk):
+        posts_me_liked = posts.likes.filter(id=request.user.id)
+        
+        if posts_me_liked.exists():
 
-    post = Post.objects.get(pk=pk)
+            posts.likes.remove(request.user)
 
-    form = PostForm(instance=post)
+        else:
 
-    if request.method == 'POST':
+            posts.likes.add(request.user)
 
+        return redirect('detail_post', pk=pk)
+
+class EditPostView(View):
+
+    def get(self,request,pk):
+
+        post = Post.objects.get(pk=pk)
+
+        form = PostForm(instance=post)
+
+        return render(request,'feed/editpost.html',{'post':post,'form':form})
+    
+    def post(self,request,pk):
         if request.user == post.author :
-
             form = PostForm(request.POST, instance=post)
 
             if form.is_valid():
                 form.save()
                 return redirect('feed')
-        
-    return render(request, 'feed/editpost.html',{'form':form})
 
-def deletepost(request,pk):
-
-    post = Post.objects.get(pk=pk)
-
-    if request.method == 'POST':
-        
+class DeletePostView(View):
+    
+    def get(self,request,pk):
+        post = Post.objects.get(pk=pk)
+        return render(request, 'feed/deletepost.html', {'post':post})
+    
+    def post(self,request,pk):
+        post = Post.objects.get(pk=pk)
         if request.user == post.author:
-
             post.delete()
             return redirect('feed')
-
-    return render(request, 'feed/deletepost.html', {'post':post})
-
