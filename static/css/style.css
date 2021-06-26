@@ -1,0 +1,21 @@
+.p1 {
+    color: red;
+    font-size: 32px;
+}
+
+
+.p2 {
+    color: blue;
+}
+
+.col1 {
+    background-color: red;
+}
+
+.col2 {
+    background-color: blue;
+}
+
+.navbar-nav {
+    align-items: flex-end;
+}

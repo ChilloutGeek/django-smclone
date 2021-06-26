@@ -1,30 +1,39 @@
-<a href="{% url 'feed' %}"> home </a>
-<h1> detail post page </h1> 
+{% extends 'base.html' %}
+{% block content %}
 
-{{posts}}
-<br>
-<br>
-{% if posts_me_liked.exists %}
+<div class="container">
+    <div class="row my-5">
+        <div class="col-6">
+           <h1>{{posts.title}}</h1> 
+           <h2>{{posts.description}}</h2> 
+        </div>
+        <div class="col-6">
+        {% if posts_me_liked.exists %}
 
-    <a href="{% url 'detail_post' posts.pk %}"> unlike post</a>
+        <a href="{% url 'detail_post' posts.pk %}"> unlike post</a>
 
-{% else %}
+        {% else %}
 
-    <a href="{% url 'detail_post' posts.pk %}"> like post </a>
+        <a href="{% url 'detail_post' posts.pk %}"> like post </a>
 
-{% endif %}
-<br>
+        {% endif %}
+        </div>
+    </div>
 <h2> comments </h2>
-
-<form method ="POST" action="">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" name="create comment">
-</form>
-
-{% for comment in comments %}
-
-{{ comment }}
-{{ comment.commentor }}
-
-{% endfor %}
+<hr>
+    <div class="row">
+        <div class="col-4">
+            {% for comment in comments %}
+            <h3>{{ comment.name }}</h3>
+            <p>{{ comment.commentor }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <form class="form-inline" method ="POST">
+            {% csrf_token %}    
+            {{form.as_p}}
+            <input type="submit" name="create comment">
+        </form>
+    </div>
+</div>
+{% endblock %}

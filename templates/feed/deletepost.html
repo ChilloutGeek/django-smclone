@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <p> delete {{post}} forever?</p>
 
 <form method="POST" action="">
@@ -5,4 +8,5 @@
     <input type="submit" name="delete it please">
 </form>
 
-<a href="{% url 'feed' %}">no please </a>"
+<a href="{% url 'feed' %}">no please </a>
+{% endblock %}

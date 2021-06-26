@@ -9,21 +9,15 @@ class HomeFeedView(View):
     def get(self,request):
     
         profiles = Profile.objects.all().exclude(user=request.user)
-
         profile = Profile.objects.get(user=request.user)
-            
-        following = profile.following.all()
+        posts = Post.objects.filter(author__in=profile.following.all())
         
-        posts = Post.objects.filter(author__in=following)
-         
-        form = PostForm()
-
         search_text = request.GET.get('search_box', None)
 
         if search_text:
             posts = Post.objects.filter(title__contains=search_text)
 
-        return render(request, 'feed/homefeed.html',{'posts':posts,'form':form,'profiles':profiles})
+        return render(request, 'feed/homefeed.html',{'posts':posts,'form':PostForm(),'profiles':profiles})
     
     def post(self,request):
 
@@ -43,7 +37,7 @@ class DetailPostView(View):
 
         posts = Post.objects.get(pk=pk)
 
-        posts_likes = posts.likes.all()
+        posts_likes = posts.likes.all() 
     
         posts_me_liked = posts.likes.filter(id=request.user.id)
     
@@ -66,7 +60,7 @@ class DetailPostView(View):
             createdcomment.post = Post.objects.get(pk=pk)
             createdcomment.commentor = request.user
             createdcomment.save()
-        return redirect('feed')
+        return redirect('detail_post', pk=pk)
 
     def postlike(self,request, pk):
 
@@ -95,13 +89,19 @@ class EditPostView(View):
         return render(request,'feed/editpost.html',{'post':post,'form':form})
     
     def post(self,request,pk):
-        if request.user == post.author :
+
+        post = Post.objects.get(pk=pk)
+        form = PostForm()
+        
+        if self.request.user == post.author:
+            
             form = PostForm(request.POST, instance=post)
 
             if form.is_valid():
                 form.save()
                 return redirect('feed')
 
+        return render(request,'feed/editpost.html',{'post':post,'form':form})
 class DeletePostView(View):
     
     def get(self,request,pk):
