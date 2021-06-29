@@ -1,0 +1,32 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Scottweet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'feed' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'logout' %}"> logout </a>
+          </li>
+          <ul class="navbar-nav navbar-right">
+            <li class="nav-item ml-auto">
+              <a class="nav-link active" aria-current="page"> Welcome {{user}} to the homepage </a>
+            </li>
+            <li>
+              <div class="col d-flex justify-content-end">
+                <form type="GET" class="d-flex">
+                    <input class="form-control me-2" id="search_box" type="text" name="search_box" aria-label="Search">
+                
+                    <button class="btn btn-outline-success" id="search_submit" type="submit">Search</button>
+                  </form>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
