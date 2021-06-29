@@ -10,11 +10,11 @@
         <div class="col-6">
         {% if posts_me_liked.exists %}
 
-        <a href="{% url 'detail_post' posts.pk %}"> unlike post</a>
+        <a href="{% url 'like_post' posts.pk %}"> unlike post</a>
 
         {% else %}
 
-        <a href="{% url 'detail_post' posts.pk %}"> like post </a>
+        <a href="{% url 'like_post' posts.pk %}"> like post </a>
 
         {% endif %}
         </div>

@@ -45,8 +45,6 @@ class DetailPostView(View):
     
         form = CommentForm()
 
-        self.postlike(self.request, pk=pk)
-
         return render(request, 'feed/detailpost.html', {'posts':posts,'comments':comments,'form':form,'posts_likes':posts_likes,'posts_me_liked':posts_me_liked})
     
     def post(self, request, pk):
@@ -62,21 +60,6 @@ class DetailPostView(View):
             createdcomment.save()
         return redirect('detail_post', pk=pk)
 
-    def postlike(self,request, pk):
-
-        posts = Post.objects.get(pk=pk)
-
-        posts_me_liked = posts.likes.filter(id=request.user.id)
-        
-        if posts_me_liked.exists():
-
-            posts.likes.remove(request.user)
-
-        else:
-
-            posts.likes.add(request.user)
-
-        return redirect('detail_post', pk=pk)
 
 class EditPostView(View):
 
@@ -113,3 +96,20 @@ class DeletePostView(View):
         if request.user == post.author:
             post.delete()
             return redirect('feed')
+
+
+def postlike(request, pk):
+
+        posts = Post.objects.get(pk=pk)
+
+        posts_me_liked = posts.likes.filter(id=request.user.id)
+        
+        if posts_me_liked.exists():
+
+            posts.likes.remove(request.user)
+
+        else:
+
+            posts.likes.add(request.user)
+
+        return redirect('detail_post', pk=pk)
