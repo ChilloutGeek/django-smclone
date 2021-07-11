@@ -43,7 +43,9 @@
                 <a href="{% url 'detail_post' post.pk %}"> see more post </a>
                 </div>
             <hr>
-        </div>
+        </div>admin1
+
+
     {% endfor %}
     </div>
     {% endcomment %}
@@ -69,11 +71,24 @@
         <div class="col-4">
             <div class="card" style="width: 12rem;">
                 <p> profiles you may follow </p> 
-                    {% for profile in profiles %}
-                  <li><a href="{% url 'profile_detail' profile.pk %}">{{profile.user}}</a></li>
-                    {% endfor %}
+                <ul class="main">      
+                {% for profile in profiles %}
+                
+                    <li><a href="{% url 'profile_detail' profile.pk %}">{{profile.user}}</a></li>
+                        {% endfor %}
+                  </ul>
                 </div>
+            <div class="dropdown">
+                <ul class="dropdownlist">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                 </ul>
+            </div>
         </div>
+        
     </div>
 
 

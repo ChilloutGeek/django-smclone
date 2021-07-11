@@ -3,8 +3,10 @@ from .models import Post, Comments
 from accounts.models import Profile
 from .forms import PostForm, CommentForm
 from django.views.generic.base import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+class HomeFeedView(LoginRequiredMixin, View):
 
-class HomeFeedView(View):
+    login_url = 'login'
 
     def get(self,request):
     
@@ -31,7 +33,9 @@ class HomeFeedView(View):
         
         return redirect('feed')
 
-class DetailPostView(View):
+class DetailPostView(LoginRequiredMixin, View):
+    
+    login_url = 'login'
 
     def get(self,request,pk):
 
@@ -61,7 +65,9 @@ class DetailPostView(View):
         return redirect('detail_post', pk=pk)
 
 
-class EditPostView(View):
+class EditPostView(LoginRequiredMixin, View):
+
+    login_url = 'login'
 
     def get(self,request,pk):
 
@@ -85,7 +91,9 @@ class EditPostView(View):
                 return redirect('feed')
 
         return render(request,'feed/editpost.html',{'post':post,'form':form})
-class DeletePostView(View):
+class DeletePostView(LoginRequiredMixin, View):
+    
+    login_url = 'login'
     
     def get(self,request,pk):
         post = Post.objects.get(pk=pk)
@@ -99,6 +107,8 @@ class DeletePostView(View):
 
 
 def postlike(request, pk):
+
+
 
         posts = Post.objects.get(pk=pk)
 

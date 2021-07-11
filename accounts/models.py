@@ -8,5 +8,6 @@ class Profile(models.Model):
     bio = models.CharField(max_length=350, default='welcome to my bio', null=True)
     following = models.ManyToManyField(User, related_name='following', blank=True)
     
+    
     def __str__(self):
         return str(self.user)
