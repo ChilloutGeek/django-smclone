@@ -15,11 +15,11 @@ class HomeFeedView(LoginRequiredMixin, View):
         posts = Post.objects.filter(author__in=profile.following.all())
         
         search_text = request.GET.get('search_box', None)
-
+        
         if search_text:
             posts = Post.objects.filter(title__contains=search_text)
 
-        return render(request, 'feed/homefeed.html',{'posts':posts,'form':PostForm(),'profiles':profiles})
+        return render(request, 'feed/homefeed.html',{'posts':posts,'form':PostForm(),'profiles':profiles,'profile':profile})
     
     def post(self,request):
 
@@ -32,7 +32,6 @@ class HomeFeedView(LoginRequiredMixin, View):
             thepost.save()
         
         return redirect('feed')
-
 class DetailPostView(LoginRequiredMixin, View):
     
     login_url = 'login'

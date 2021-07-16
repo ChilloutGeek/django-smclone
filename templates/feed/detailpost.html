@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include "navbar.html" %}
+
 <div class="container">
     <div class="row my-5">
         <div class="col-6">
+        <img class="img-thumbnail" src="{{posts.imagecontent.url}}">
            <h1>{{posts.title}}</h1> 
            <h2>{{posts.description}}</h2> 
         </div>

@@ -13,7 +13,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='postlike')
-    postimage = models.ImageField(null=True, blank=True, upload_to='images/')
+    imagecontent = models.ImageField(null=True, blank=True, upload_to='content/')
 
     def like_number(self):
         return self.likes.count()

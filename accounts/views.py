@@ -57,6 +57,8 @@ def follow_unfollow_profile(request,pk):
     my_profile_following = my_profile.following.filter(id=profile.user.id)
     is_following = profile.following.filter(id=request.user.id)
     
+    import pdb 
+    pdb.set_trace()
     if my_profile_following.exists():
 
         my_profile.following.remove(profile.user)
