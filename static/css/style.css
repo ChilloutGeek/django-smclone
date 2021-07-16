@@ -2,10 +2,10 @@
     align-items: flex-end;
 }
 
-div.dropdown {
+.mainlist{
     opacity: 0;
 }
-
-div.dropdown active{
+    
+.mainlist.active{
     opacity: 1;
 }
