@@ -6,37 +6,32 @@
     <div class="row">
         <div class="col-8">
             <div class="card">
-                        {% for post in posts %}
-                            <h3>{{ post.author }}</h3>
-                            <img src="{{post.imagecontent.url}}" class="card-img-top">
-                            <p class="card-text">{{post.description}}</p>
+             {% for post in posts %}
+                <h3>{{ post.author }}</h3>
+                <img src="{{post.imagecontent.url}}" class="card-img-top">
+                <p class="card-text">{{post.description}}</p>
                                 <!-- <div class="">
                                     <a href="{% url 'edit_post' post.pk %}"> edit </a>
                                     <a href="{% url 'delete_post' post.pk %}"> delete </a>
                                     <a href="{% url 'detail_post' post.pk %}"> see more post </a>
                                 </div> --> 
-                                {% endfor %}
-                            </div>
-                        </div>
-        <div class='col-4 mainlist'>
-            <img class="img-thumbnail rounded-circle mw-100" src="{{profile.profilepic.url}}">
+             {% endfor %}
+            </div>
+        </div>
+    <div class='col-4 mainlist'>
+        <img class="img-thumbnail rounded-circle mw-100" src="{{profile.profilepic.url}}">
             <div class="dp-text">
                 <a href="{% url 'profile_detail' profile.pk %}">{{profile.user}}</p> 
             </div>
-            
-            
-        <div>
-            <p> Suggestions for you  </p>           
+    <div>
+        <p> Suggestions for you  </p>           
             {% for profile in profiles %}
                 <img class="img-thumbnail rounded-circle smaller-profile-pic mw-100" src="{{profile.profilepic.url}}">
                 <a class="dp-text" href="{% url 'profile_detail' profile.pk %}">{{profile.user}}</a></li>
-                        {% endfor %}
+            {% endfor %}
             </div>
         </div>
-        
     </div>
-
-
 </div>
 
 
