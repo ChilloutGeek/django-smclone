@@ -4,6 +4,7 @@ from accounts.models import Profile
 from .forms import PostForm, CommentForm
 from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 class HomeFeedView(LoginRequiredMixin, View):
 
     login_url = 'login'

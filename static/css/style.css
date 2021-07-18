@@ -1,3 +1,34 @@
 .navbar-nav {
     align-items: flex-end;
 }
+
+.avatar{
+border-radius: 50%;
+background-size: cover;
+background-position: center;
+}
+
+.avatar-64 {
+    height: 4rem;
+    width: 4rem;
+  }
+
+.rounded-circle{
+ width: 128px; height: 128px;
+}
+
+.smaller-profile-pic{
+    width:64px; height:64px;
+}
+
+.dp-text{
+    margin-left: 40px;
+    display: inline-block;
+}
+
+
+.card-img-top{
+    width: 100%;
+    height: 100%;
+
+}

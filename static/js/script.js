@@ -3,6 +3,7 @@ $(document).ready(function(){
     var x = $('a')
 
     x.css('text-decoration', 'none')
+    x.css('color', 'black')
     
     $(window).on("scroll", function() {
         //page height
