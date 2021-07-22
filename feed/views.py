@@ -14,13 +14,14 @@ class HomeFeedView(LoginRequiredMixin, View):
         profiles = Profile.objects.all().exclude(user=request.user)
         profile = Profile.objects.get(user=request.user)
         posts = Post.objects.filter(author__in=profile.following.all())
+        comments = Comments.objects.filter(post__in=posts)        
         
         search_text = request.GET.get('search_box', None)
         
         if search_text:
             posts = Post.objects.filter(title__contains=search_text)
 
-        return render(request, 'feed/homefeed.html',{'posts':posts,'form':PostForm(),'profiles':profiles,'profile':profile})
+        return render(request, 'feed/homefeed.html',{'posts':posts,'form':PostForm(),'profiles':profiles,'profile':profile, 'comments':comments})
     
     def post(self,request):
 
